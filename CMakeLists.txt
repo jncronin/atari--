@@ -1,0 +1,218 @@
+cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
+
+project(atari++ C CXX)
+
+set(SOURCES
+	${CMAKE_CURRENT_SOURCE_DIR}/new.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/list.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/adrspace.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/debugadrspace.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/monitor.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/instruction.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/serialdevice.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/diskdrive.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/imagestream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/filestream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/zstream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/casstream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/tapeimage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/casfile.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/wavfile.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/wavdecoder.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/diskimage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/xfdimage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/atrimage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/atximage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/binaryimage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/dcmimage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/streamimage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/analogjoystick.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/digitaljoystick.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/sdlanalog.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/sdldigital.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/display.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/osrom.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/osdist.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ram.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/sio.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/atarisioport.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/atarisio.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/antic.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/exceptions.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/siopatch.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/audiobuffer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/sound.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/osssound.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/osshqsound.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/wavsound.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/sdlsound.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/alsasound.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/dxsoundfront.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/directxsound.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/argparser.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/gamecontrollernode.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/gamecontroller.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/page.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/yconnector.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/atari.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/gameport.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/patch.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/timer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/basicrom.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/basicmathpatch.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/basdist.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/gtia.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/pdevice.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/rdevice.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/types.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartctrl.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/hdevice.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/edevice.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/pia.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/vbiaction.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/hbiaction.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cycleaction.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartrom.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartridge.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cart8k.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cart16k.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cart32k.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartoss.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartossb.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartoss8k.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartsdx.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartxegs.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartrt8.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartbbob.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartflash.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartmega.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartatrax.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartwill.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartdb32.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartright8k.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cart32kee16.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartphoenix.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cartatmax.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/amdchip.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/flashpage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/keyboard.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/pokey.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/colorentry.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/postprocessor.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/palcolorblurer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/flickerfixer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/palflickerfixer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/x11_mappedbuffer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/x11_truecolorbuffer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/x11_xvideobuffer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/x11_displaybuffer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/chip.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/machine.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/printer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/interfacebox.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/tape.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/x11_frontend.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/dpms.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/configurable.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/rampage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/xfront.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cpu.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/memcontroller.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/rompage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/deviceadapter.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/device.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/mmu.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ramextension.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/xeextension.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/axlonextension.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/romxlchecksum.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/mathsupport.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/mathpackpatch.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/patchprovider.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/sighandler.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/irqsource.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/keyboardstick.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/sdlport.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/sdlclient.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/sdl_frontend.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/screendump.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/cmdlineparser.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/curses_frontend.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/no_frontend.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/optioncollector.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/menuoption.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/menutopic.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/menu.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/renderport.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/bufferport.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/requester.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/warningrequester.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/errorrequester.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/choicerequester.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/filerequester.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/saveable.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/snapshot.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/snapshotwriter.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/snapshotreader.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/event.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/gadget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/gadgetgroup.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/verticalgroup.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/buttongadget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/booleangadget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/slidergadget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/stringgadget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/filebuttongadget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/filegadget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/filelist.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/requesterentry.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/textgadget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/separatorgadget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/radiogadget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/rangegadget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/topicgadget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/listbrowsergadget.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/titlemenu.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/menuitem.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/menuseparatoritem.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/menuactionitem.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/menuboolitem.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/menuselectionitem.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/menufileitem.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/menusuperitem.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/menurootitem.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/menuvertitem.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/charmap.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/licence.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/serialstream.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/xepbuffer.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/directory.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/stdlib.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/string.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/unistd.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/stdio.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/time.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/termios.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/curses.cpp
+)
+
+find_package(SDL REQUIRED)
+
+add_executable(atari++)
+
+target_sources(atari++
+PRIVATE
+    ${SOURCES}
+)
+
+target_include_directories(atari++
+PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+target_link_libraries(atari++
+PRIVATE
+    SDL
+    z
+)
