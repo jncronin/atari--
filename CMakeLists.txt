@@ -216,3 +216,6 @@ PRIVATE
     SDL
     z
 )
+
+install(TARGETS atari++)
+include(CPack)
