@@ -167,6 +167,8 @@ public:
   // Load one or several pages from a file into the Cartridge ROM
   // If skipheader is true, the atari800 CART type header is skipped
   void LoadFromFile(const char *path,bool skipheader); 
+
+  const char *GetCartPath() { return CartPath; }
 };
 ///
 

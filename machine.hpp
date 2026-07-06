@@ -21,6 +21,7 @@
 #include "hbiaction.hpp"
 #include "cycleaction.hpp"
 #include <stdarg.h>
+#include <string>
 ///
 
 /// Type definitions for the machine type
@@ -192,6 +193,10 @@ class Machine {
   bool                   nogfx;
   bool                   noerrors;
   bool                   nowarnings;
+
+  bool                   dosavestate = false;
+  bool                   dorestorestate = false;
+  std::string            statefilename;
   //
   // Parse the configuration options for the overall menu here.
   void ParseConfig(class ArgParser *args);
@@ -501,6 +506,18 @@ public:
   bool &LaunchMenu(void)
   {
     return launchmenu;
+  }
+  bool &DoSaveState(void)
+  {
+    return dosavestate;
+  }
+  bool &DoRestoreState(void)
+  {
+    return dorestorestate;
+  }
+  std::string &StateFilename(void)
+  {
+    return statefilename;
   }
   //
   // Returns true in case a graphical interface is available.

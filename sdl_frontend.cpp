@@ -21,6 +21,8 @@
 #include "screendump.hpp"
 #include "string.hpp"
 #include "new.hpp"
+#include "optioncollector.hpp"
+#include "cartrom.hpp"
 #if HAVE_SDL_SDL_H && HAVE_SDL_SETVIDEOMODE
 #include <SDL/SDL.h>
 #include <SDL/SDL_video.h>
@@ -49,6 +51,7 @@ const signed char SDL_FrontEnd::DiagDeblocker<datatype,PxWidth,PxHeight>::southe
 /// SDL_FrontEnd::SDL_FrontEnd
 SDL_FrontEnd::SDL_FrontEnd(class Machine *mach,int unit)
   : AtariDisplay(mach,unit), SDLClient(mach,SDL_INIT_VIDEO), // this requires SDL video output
+    m(mach),
     screen(NULL), sdl_initialized(false),
     colors(NULL), colormap(NULL),
     ScreenBaseName(new char[strlen("ScreenDump")+1]), Format(ScreenDump::PNM),
@@ -987,6 +990,12 @@ void SDL_FrontEnd::HandleEventQueue(void)
 }
 ///
 
+static std::string get_save_fname(CartROM *cart, int n)
+{
+  std::string base_name = (cart && cart->Cart()) ? cart->Cart()->GetCartPath() : "unknown";
+  return base_name + "." + std::to_string(n) + ".state";
+}
+
 /// SDL_FrontEnd::HandleKeyEvent
 // Handles a key event and updates the keyboard status of the
 // emulation as required
@@ -1002,6 +1011,26 @@ void SDL_FrontEnd::HandleKeyEvent(SDL_KeyboardEvent *event)
   shift    = ((event->keysym.mod) & (KMOD_LSHIFT | KMOD_RSHIFT))?(true):(false);
   control  = ((event->keysym.mod) & (KMOD_LCTRL  | KMOD_RCTRL ))?(true):(false);
   keysym   = event->keysym.sym;
+
+  if(keysym >= 360 && keysym < 390)
+  {
+    if(downflag)
+    {
+      if(keysym >= 360 && keysym < 370)
+      {
+        m->StateFilename() = get_save_fname(m->CartROM(), keysym - 360);
+        m->DoSaveState() = true;
+      }
+      if(keysym >= 370 && keysym < 380)
+      {
+        m->StateFilename() = get_save_fname(m->CartROM(), keysym - 370);
+        m->DoRestoreState() = true;
+      }
+    }
+
+    return;
+  }
+
   //
   // If this looks like the X11 interface, then this is no coincidence...
   // Check whether the keypad stick uses this key. If so, perform a mouse

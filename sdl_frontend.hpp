@@ -42,6 +42,9 @@ class SDL_FrontEnd : public AtariDisplay, public SDLClient {
   // Import the packed RGB type.
   typedef AtariDisplay::PackedRGB PackedRGB;
   //
+  // The machine
+  Machine *m;
+  //
   // Points to the SDL drawing plane
   SDL_Surface    *screen;
   //

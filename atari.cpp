@@ -149,6 +149,18 @@ void Atari::EmulationLoop(void)
 	    missedframes = 0;
 	    events  = true;
 	  }
+	  if (machine->DoSaveState()) {
+	    // Sync the CPU state to an instruction boundary.
+	    machine->CPU()->Sync();
+		machine->WriteStates(machine->StateFilename().c_str());
+		machine->DoSaveState() = false;
+	  }
+	  if (machine->DoRestoreState()) {
+	    // Sync the CPU state to an instruction boundary.
+	    machine->CPU()->Sync();
+		machine->ReadStates(machine->StateFilename().c_str());
+		machine->DoRestoreState() = false;
+	  }
 	  if (Display->MenuVerify()) {
 	    // Sync the CPU state to an instruction boundary.
 	    machine->CPU()->Sync();
