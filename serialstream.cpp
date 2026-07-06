@@ -123,7 +123,7 @@ bool SerialStream::Open(const char *name)
 {
   if (!Stream) {
     Stream = new struct SerialHandle;
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     Stream->fd = open(name,O_NOCTTY|O_RDWR);
     // We also need to define the serial transfer parameters here.
     // Non-cooked, no hardware flow-control, no software flow control.
@@ -270,7 +270,7 @@ void SerialStream::Close(void)
 bool SerialStream::SetBaudRate(int rate)
 {
   if (Stream) {
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     struct termios t; 
     speed_t s = B300;
     //
@@ -371,7 +371,7 @@ bool SerialStream::SetBaudRate(int rate)
 bool SerialStream::SetStopBits(int bits)
 { 
   if (Stream) {
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     struct termios t; 
     //
     if (tcgetattr(Stream->fd,&t) == 0) {
@@ -416,7 +416,7 @@ bool SerialStream::SetStopBits(int bits)
 bool SerialStream::SetDataBits(int bits)
 {  
   if (Stream) {
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     struct termios t; 
     //
     if (tcgetattr(Stream->fd,&t) == 0) {
@@ -463,7 +463,7 @@ bool SerialStream::SetDataBits(int bits)
 bool SerialStream::SetHardwareHandshake(bool onoff)
 {  
   if (Stream) {
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     struct termios t; 
     //
     if (tcgetattr(Stream->fd,&t) == 0) { 
@@ -499,7 +499,7 @@ bool SerialStream::SetHardwareHandshake(bool onoff)
 bool SerialStream::SetRTSState(bool onoff)
 {
   if (Stream) {
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     return SetRTSLine(Stream->fd,onoff);
 #elif defined (WIN32)
     if (!EscapeCommFunction(Stream->fd,(onoff)?SETRTS:CLRRTS))
@@ -515,7 +515,7 @@ bool SerialStream::SetRTSState(bool onoff)
 bool SerialStream::SetDTRState(bool onoff)
 {
   if (Stream) {
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     return SetDTRLine(Stream->fd,onoff);
 #elif defined (WIN32)
     if (!EscapeCommFunction(Stream->fd,(onoff)?SETDTR:CLRDTR))
@@ -534,7 +534,7 @@ bool SerialStream::SetDTRState(bool onoff)
 bool SerialStream::GetCTSState(bool &state)
 {
   if (Stream) {
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     return ReadCTSLine(Stream->fd,state);
 #elif defined(WIN32)
    DWORD dwModemStatus;
@@ -557,7 +557,7 @@ bool SerialStream::GetCTSState(bool &state)
 bool SerialStream::GetDSRState(bool &state)
 {
   if (Stream) {
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     return ReadDSRLine(Stream->fd,state);
 #elif defined(WIN32)
    DWORD dwModemStatus;
@@ -580,7 +580,7 @@ bool SerialStream::GetDSRState(bool &state)
 bool SerialStream::GetCDState(bool &state)
 {
   if (Stream) {
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     return ReadCDLine(Stream->fd,state);
 #elif defined(WIN32)
    DWORD dwModemStatus;
@@ -602,7 +602,7 @@ bool SerialStream::GetCDState(bool &state)
 bool SerialStream::GetFramingErrors(int &cnt)
 {
   if (Stream) {
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     return ReadFramingErrors(Stream->fd,cnt);
 #elif defined(WIN32)
     COMSTAT comStat;
@@ -633,7 +633,7 @@ bool SerialStream::GetFramingErrors(int &cnt)
 bool SerialStream::GetPortOverrunErrors(int &cnt)
 {
   if (Stream) {
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     return ReadByteOverrunErrors(Stream->fd,cnt);
 #elif defined(WIN32)
     COMSTAT comStat;
@@ -664,7 +664,7 @@ bool SerialStream::GetPortOverrunErrors(int &cnt)
 bool SerialStream::GetParityErrors(int &cnt)
 {
   if (Stream) {
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     return ReadParityErrors(Stream->fd,cnt);
 #elif defined(WIN32)
     COMSTAT comStat;
@@ -695,7 +695,7 @@ bool SerialStream::GetParityErrors(int &cnt)
 bool SerialStream::GetBufferOverrunErrors(int &cnt)
 {
   if (Stream) {
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     return ReadBufferOverrunErrors(Stream->fd,cnt);
 #elif defined(WIN32)
     COMSTAT comStat;
@@ -728,7 +728,7 @@ bool SerialStream::GetBufferOverrunErrors(int &cnt)
 long SerialStream::Read(unsigned char *buffer,long size)
 {
   if (Stream) {
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     return read(Stream->fd,buffer,size);
 #elif defined(WIN32)
     long totalbytes = 0; // total number of bytes read.
@@ -873,7 +873,7 @@ long SerialStream::Write(const unsigned char *buffer,long size)
 void SerialStream::Flush(void)
 {
   if (Stream) {
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     tcflush(Stream->fd,TCIOFLUSH);
 #elif defined(WIN32)
     if (Stream->writepending) {
@@ -891,7 +891,7 @@ void SerialStream::Flush(void)
 bool SerialStream::Drain(void)
 {
   if (Stream) {
-#if defined(UNIX)
+#if defined(UNIX) && !defined(__GAMEKID__)
     return DrainSerialOutputBuffer(Stream->fd);
 #elif defined(WIN32)
     if (Stream->writepending) {
